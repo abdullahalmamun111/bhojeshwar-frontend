@@ -1,26 +1,177 @@
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+/* ─── Tailwind v4: Dark-mode variant triggered by .dark on <html> ─── */
+@variant dark (&:where(.dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light Theme */
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f8fafc;
+  --bg-card-inner: #f1f5f9;
+  --header-bg: rgba(255, 255, 255, 0.96);
+  --topbar-bg: #064e3b;
+  --topbar-text: #ecfdf5;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+
+  --border-light: #e2e8f0;
+  --border-card: #e2e8f0;
+  --border-emerald: #10b981;
+
+  --emerald-primary: #059669;
+  --emerald-light: #10b981;
+  --emerald-dark: #064e3b;
+  --emerald-subtle: #ecfdf5;
+  --emerald-glow: rgba(16, 185, 129, 0.12);
+
+  --accent-gold: #d97706;
+  --accent-gold-light: #fef3c7;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 14px -2px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 25px -4px rgba(0, 0, 0, 0.1);
+  --shadow-emerald: 0 10px 25px -5px rgba(5, 150, 105, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+html.dark {
+  /* Dark Theme (Rich Navy / Emerald Glow) */
+  --bg-primary: #050d18;
+  --bg-secondary: #091524;
+  --bg-tertiary: #0e1e33;
+  --bg-card: #0b1a2d;
+  --bg-card-hover: #10243d;
+  --bg-card-inner: #071220;
+  --header-bg: rgba(5, 13, 24, 0.94);
+  --topbar-bg: #03080e;
+  --topbar-text: #a7f3d0;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --text-inverse: #050d18;
+
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-card: rgba(16, 185, 129, 0.18);
+  --border-emerald: #10b981;
+
+  --emerald-primary: #10b981;
+  --emerald-light: #34d399;
+  --emerald-dark: #047857;
+  --emerald-subtle: rgba(16, 185, 129, 0.1);
+  --emerald-glow: rgba(16, 185, 129, 0.25);
+
+  --accent-gold: #f59e0b;
+  --accent-gold-light: rgba(245, 158, 11, 0.15);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 20px -2px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 12px 35px -5px rgba(0, 0, 0, 0.7);
+  --shadow-emerald: 0 10px 30px -5px rgba(16, 185, 129, 0.35);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Hind Siliguri', 'Plus Jakarta Sans', sans-serif;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  overflow-x: hidden;
+}
+
+body.lang-en {
+  font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-header {
+  background-color: var(--header-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--emerald-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--emerald-light);
+}
+
+/* ─── Pulse Glow ─── */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 28px rgba(16, 185, 129, 0.65);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+/* ─── Horizontal Marquee (Top ticker) ─── */
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 25s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ─── Vertical Notice Auto-Scroll ─── */
+/* Each notice card is ~88px tall + 12px margin = ~100px per card
+   With 8+ notices duplicated, total scroll height ≈ 800px (half the duplication).
+   Adjust the translateY(-50%) to scroll exactly half the list for seamless loop. */
+@keyframes noticeScroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-notice-scroll {
+  animation: noticeScroll 20s linear infinite;
+}
+
+.animate-notice-scroll:hover {
+  animation-play-state: paused;
 }
